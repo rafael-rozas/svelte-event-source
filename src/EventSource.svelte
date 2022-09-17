@@ -14,14 +14,16 @@
 
     evtSource.onmessage = (e) => dispacher('message',e.data);
 
-    evtSource.onerror = (e)=> dispacher('error');
-
-    evtSource.
+    evtSource.onerror = (e)=> dispacher('error',e);
 
     events.forEach( eventName => {
       evtSource.addEventListener(eventName,(e) => {
         if(e.data){
-          dispacher(eventName,JSON.parse(e.data));
+          try {
+            dispacher(eventName,JSON.parse(e.data));
+          } catch (error) {
+            dispacher(eventName,e.data);
+          }
         }
       })
     });
