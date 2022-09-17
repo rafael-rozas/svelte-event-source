@@ -1,0 +1,36 @@
+<script>
+  import { createEventDispatcher, onMount, onDestroy } from 'svelte';
+  const dispacher = createEventDispatcher()
+  export let url;
+  export let events = [];
+  export let evtInit= {withCredentials:true}
+  let evtSource;
+
+  onMount(()=>{
+    
+    if(!url) return;
+
+    evtSource = new EventSource( url, evtInit );
+
+    evtSource.onmessage = (e) => dispacher('message',e.data);
+
+    evtSource.onerror = (e)=> dispacher('error');
+
+    evtSource.
+
+    events.forEach( eventName => {
+      evtSource.addEventListener(eventName,(e) => {
+        if(e.data){
+          dispacher(eventName,JSON.parse(e.data));
+        }
+      })
+    });
+
+  });
+
+  onDestroy(()=> {
+    if(evtSource){
+      evtSource.close()
+    }
+  })
+</script>
