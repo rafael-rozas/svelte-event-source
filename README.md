@@ -1,6 +1,8 @@
 # svelte-event-source
 wrapper for event source in svelte component
 
+
+## use
 ```
 <script>
  import EvtSource from './EventSource.svelte';
